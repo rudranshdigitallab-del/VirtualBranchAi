@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDFC Smart Virtual Branch | Demo</title>
+  <style>
+    :root{
+      --bg:#f4f8ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#5b6b8a;
+      --line:#d9e4f5;
+      --primary:#173b8f;
+      --primary2:#2b77ff;
+      --green:#0f9d58;
+      --orange:#f59e0b;
+      --red:#dc2626;
+      --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #edf4ff 0%, #f7fbff 100%);
+      color:var(--text);
+    }
+
+    .hidden{display:none !important;}
+    a{color:inherit;text-decoration:none}
+    button, input, select, textarea{
+      font:inherit;
+    }
+
+    .page{
+      min-height:100vh;
+    }
+
+    .login-wrap{
+      display:grid;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap:24px;
+      max-width:1280px;
+      margin:0 auto;
+      padding:34px 20px 24px;
+      align-items:stretch;
+    }
+
+    .hero{
+      background: linear-gradient(135deg, rgba(23,59,143,0.98), rgba(43,119,255,0.92));
+      color:#fff;
+      border-radius:28px;
+      padding:34px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+      min-height:660px;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:360px;
+      height:360px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.08);
+      top:-120px;
+      right:-120px;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.06);
+      bottom:-90px;
+      left:-90px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+      position:relative;
+      z-index:1;
+    }
+
+    .brand-mark{
+      width:52px;height:52px;border-radius:14px;
+      background:#fff;
+      color:var(--primary);
+      display:grid;place-items:center;
+      font-weight:900;
+      font-size:24px;
+    }
+
+    .brand h1{
+      font-size:30px;
+      line-height:1.1;
+      margin:0;
+    }
+
+    .brand p{
+      margin:4px 0 0;
+      color:rgba(255,255,255,0.88);
+      font-size:14px;
+    }
+
+    .hero h2{
+      font-size:44px;
+      line-height:1.06;
+      margin:26px 0 14px;
+      max-width:860px;
+      position:relative;
+      z-index:1;
+    }
+
+    .hero .subtitle{
+      font-size:18px;
+      max-width:820px;
+      line-height:1.6;
+      color:rgba(255,255,255,0.88);
+      position:relative;
+      z-index:1;
+    }
+
+    .steps{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
+      position:relative;
+      z-index:1;
+    }
+
+    .chip{
+      border:1px solid rgba(255,255,255,0.22);
+      background:rgba(255,255,255,0.08);
+      backdrop-filter: blur(6px);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:14px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+      position:relative;
+      z-index:1;
+    }
+
+    .mini{
+      background:rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.16);
+      border-radius:18px;
+      padding:16px;
+      min-height:100px;
+    }
+
+    .mini strong{
+      display:block;
+      font-size:17px;
+      margin-bottom:6px;
+    }
+
+    .mini span{
+      color:rgba(255,255,255,0.82);
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .login-card{
+      background:var(--card);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      border:1px solid var(--line);
+      padding:24px;
+      min-height:660px;
+    }
+
+    .login-card h3{
+      margin:0 0 6px;
+      font-size:26px;
+    }
+
+    .login-card p{
+      margin:0 0 16px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .role-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:12px;
+      margin:18px 0 18px;
+    }
+
+    .role-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      background:#fbfdff;
+    }
+
+    .role-top{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .role-icon{
+      width:38px;height:38px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, #eaf1ff, #dfeaff);
+      font-size:18px;
+    }
+
+    .role-card h4{
+      margin:0;
+      font-size:15px;
+    }
+
+    .role-card span{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+      display:block;
+      min-height:34px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:700;
+      transition:0.2s ease;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      color:#fff;
+      box-shadow:0 10px 20px rgba(43,119,255,0.22);
+    }
+    .btn-secondary{
+      background:#eef4ff;
+      color:var(--primary);
+      border:1px solid #d7e4ff;
+    }
+    .btn-danger{
+      background:#fff1f2;
+      color:#be123c;
+      border:1px solid #fecdd3;
+    }
+
+    .form{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .field label{
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      margin-bottom:6px;
+      color:#203255;
+    }
+
+    .field input,.field select,.field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:14px;
+      padding:12px 14px;
+      outline:none;
+      transition:0.2s ease;
+      color:var(--text);
+    }
+
+    .field textarea{min-height:120px; resize:vertical;}
+
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:#8ab3ff;
+      box-shadow:0 0 0 4px rgba(43,119,255,0.12);
+    }
+
+    .hint{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:10px;
+      line-height:1.5;
+    }
+
+    .error{
+      color:#b91c1c;
+      background:#fef2f2;
+      border:1px solid #fecaca;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      margin-top:10px;
+      display:none;
+    }
+
+    /* App layout */
+    .app{
+      max-width:1480px;
+      margin:0 auto;
+      padding:18px;
+    }
+
+    .topbar{
+      background:rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:22px;
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      position:sticky;
+      top:14px;
+      z-index:10;
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .topbar-left .logo{
+      width:42px;height:42px;border-radius:13px;
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      color:#fff;
+      display:grid;place-items:center;
+      font-weight:900;
+    }
+
+    .topbar h2{
+      margin:0;
+      font-size:18px;
+      line-height:1.2;
+    }
+    .topbar small{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .userbox{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#eef4ff;
+      color:var(--primary);
+      border:1px solid #d7e4ff;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 280px minmax(0,1fr);
+      gap:18px;
+      margin-top:18px;
+      align-items:start;
+    }
+
+    .sidebar, .content{
+      background:rgba(255,255,255,0.92);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      border-radius:26px;
+      overflow:hidden;
+    }
+
+    .sidebar{
+      position:sticky;
+      top:92px;
+      padding:14px;
+    }
+
+    .sidebar .menu-title{
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin:10px 10px 12px;
+    }
+
+    .nav-btn{
+      width:100%;
+      border:none;
+      background:#fff;
+      color:#203255;
+      padding:12px 14px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+      cursor:pointer;
+      border:1px solid var(--line);
+      transition:0.2s ease;
+      font-weight:700;
+    }
+
+    .nav-btn:hover{
+      border-color:#bed3ff;
+      transform:translateX(2px);
+    }
+
+    .nav-btn.active{
+      background:linear-gradient(135deg, #eef4ff, #dfeaff);
+      border-color:#bcd2ff;
+      color:var(--primary);
+    }
+
+    .content{
+      padding:22px;
+      min-height:780px;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .section-head h3{
+      margin:0;
+      font-size:28px;
+      line-height:1.15;
+    }
+
+    .section-head p{
+      margin:8px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      max-width:900px;
+    }
+
+    .kpi-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .kpi{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+      min-height:110px;
+    }
+
+    .kpi .label{
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:8px;
+    }
+
+    .kpi .value{
+      font-size:28px;
+      font-weight:900;
+      line-height:1.1;
+      margin-bottom:6px;
+    }
+
+    .kpi .sub{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:14px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 8px 20px rgba(15,23,42,0.03);
+    }
+
+    .card h4, .card h5{
+      margin:0 0 10px;
+    }
+
+    .muted{color:var(--muted)}
+
+    .form-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .result-banner{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      margin-bottom:14px;
+    }
+    .result-banner.low{background:#f0fdf4;border-color:#bbf7d0;}
+    .result-banner.medium{background:#fffbeb;border-color:#fde68a;}
+    .result-banner.high{background:#fef2f2;border-color:#fecaca;}
+
+    .result-banner h4{
+      margin:0 0 6px;
+      font-size:20px;
+    }
+
+    .result-banner p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .badge{
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      align-self:flex-start;
+    }
+    .badge.low{background:#dcfce7;color:#166534;}
+    .badge.medium{background:#fef3c7;color:#92400e;}
+    .badge.high{background:#fee2e2;color:#991b1b;}
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .mini-card{
+      border:1px solid var(--line);
+      background:#fbfdff;
+      border-radius:16px;
+      padding:14px;
+      min-height:96px;
+    }
+
+    .mini-card .t{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+      text-transform:uppercase;
+      letter-spacing:0.04em;
+    }
+    .mini-card .v{
+      font-weight:800;
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .timeline{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+      max-height:460px;
+      overflow:auto;
+      padding-right:4px;
+    }
+
+    .step{
+      display:flex;
+      gap:12px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+    }
+
+    .step .num{
+      width:32px;height:32px;border-radius:10px;
+      display:grid;place-items:center;
+      color:#fff;
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      font-weight:800;
+      flex:0 0 auto;
+    }
+
+    .step .meta strong{
+      display:block;
+      margin-bottom:5px;
+    }
+
+    .step .meta span{
+      color:var(--muted);
+      line-height:1.45;
+      font-size:13px;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:18px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      min-width:760px;
+    }
+
+    th,td{
+      padding:12px 14px;
+      border-bottom:1px solid #edf2ff;
+      text-align:left;
+      font-size:14px;
+    }
+
+    th{
+      background:#f8fbff;
+      color:#39517c;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.05em;
+    }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .status.open{background:#eff6ff;color:#1d4ed8;}
+    .status.progress{background:#fef3c7;color:#92400e;}
+    .status.resolved{background:#dcfce7;color:#166534;}
+    .status.escalated{background:#fee2e2;color:#991b1b;}
+
+    .bar-row{
+      display:grid;
+      grid-template-columns: 180px minmax(0,1fr) 70px;
+      gap:12px;
+      align-items:center;
+      margin:14px 0;
+    }
+
+    .bar{
+      height:12px;
+      border-radius:999px;
+      background:#e8eefb;
+      overflow:hidden;
+    }
+
+    .bar > span{
+      display:block;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+    }
+
+    .list{
+      display:grid;
+      gap:10px;
+    }
+
+    .list-item{
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+    }
+
+    .list-item strong{
+      display:block;
+      margin-bottom:5px;
+    }
+
+    .list-item p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:13px;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      padding:14px;
+      border-radius:16px;
+      background:#f8fbff;
+      border:1px dashed #c6d7f8;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .search-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+
+    .search-row input{
+      flex:1 1 280px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      outline:none;
+    }
+
+    .progress{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:#e8eefb;
+      overflow:hidden;
+      margin-top:12px;
+    }
+    .progress > span{
+      display:block;
+      height:100%;
+      width:0%;
+      background:linear-gradient(135deg, var(--primary), var(--primary2));
+      transition:width 0.25s ease;
+    }
+
+    @media (max-width: 1100px){
+      .login-wrap{grid-template-columns:1fr}
+      .hero, .login-card{min-height:auto}
+      .layout{grid-template-columns:1fr}
+      .sidebar{position:relative;top:0}
+      .kpi-grid,.mini-grid,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2{grid-template-columns:1fr}
+      .hero h2{font-size:36px}
+    }
+
+    @media (max-width: 700px){
+      .role-grid,.kpi-grid,.mini-grid,.grid-3{grid-template-columns:1fr}
+      .hero{padding:24px}
+      .login-card{padding:18px}
+      .content{padding:16px}
+      .section-head h3{font-size:24px}
+      .hero h2{font-size:30px}
+      .bar-row{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div id="loginPage" class="page">
+    <div class="login-wrap">
+      <section class="hero">
+        <div class="brand">
+          <div class="brand-mark">H</div>
+          <div>
+            <h1>HDFC Smart Virtual Branch</h1>
+            <p>AI-driven customer service & complaint resolution</p>
+          </div>
+        </div>
+
+        <h2>Understand → Investigate → Resolve → Escalate → Prevent</h2>
+        <div class="subtitle">
+          A single digital branch for customers, branch officers, managers, operations, and administrators —
+          with AI agents handling complaint intake, investigation, policy lookup, SLA monitoring, escalation, and closure.
+        </div>
+
+        <div class="steps">
+          <div class="chip">Omnichannel login</div>
+          <div class="chip">Role-based access</div>
+          <div class="chip">AI agent demo</div>
+          <div class="chip">Complaint workflow</div>
+          <div class="chip">Customer 360</div>
+          <div class="chip">Reports & audit logs</div>
+        </div>
+
+        <div class="hero-grid">
+          <div class="mini">
+            <strong>Customer</strong>
+            <span>Raise complaints, track status, see AI recommendations, and receive updates through portal or chat.</span>
+          </div>
+          <div class="mini">
+            <strong>AI Branch Officer</strong>
+            <span>Review AI insights, assist in resolution, and approve next actions when human judgment is needed.</span>
+          </div>
+          <div class="mini">
+            <strong>Branch Manager</strong>
+            <span>Handle escalations, SLA breaches, and approvals with a transparent workbench.</span>
+          </div>
+          <div class="mini">
+            <strong>Admin & Ops</strong>
+            <span>Manage roles, policies, audit trails, and operational control in one secure interface.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="login-card">
+        <h3>Role Login</h3>
+        <p>Choose a role and sign in with the demo password to explore the dashboard. Each role has a separate quick login.</p>
+
+        <div id="roleCards" class="role-grid"></div>
+
+        <div class="form">
+          <div class="field">
+            <label>Username</label>
+            <input id="username" type="text" placeholder="e.g. ravi.sharma" />
+          </div>
+
+          <div class="field">
+            <label>Role</label>
+            <select id="roleSelect"></select>
+          </div>
+
+          <div class="field">
+            <label>Password</label>
+            <input id="password" type="password" placeholder="demo123" />
+          </div>
+
+          <button class="btn btn-primary" id="loginBtn">Login</button>
+          <div id="loginError" class="error">Invalid password. Use <b>demo123</b> for this demo.</div>
+          <div class="hint">
+            Demo credentials: any username, password <b>demo123</b><br/>
+            Quick role login buttons also work without typing.
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- App Page -->
+  <div id="appPage" class="page hidden">
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="logo">H</div>
+          <div>
+            <h2>Smart Virtual Branch Demo</h2>
+            <small>AI complaint resolution platform</small>
+          </div>
+        </div>
+        <div class="userbox">
+          <span id="userBadge" class="tag">Role</span>
+          <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <div class="menu-title">Navigation</div>
+          <div id="sidebarMenu"></div>
+        </aside>
+
+        <main class="content" id="contentArea"></main>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEMO_PASSWORD = 'demo123';
+
+    const roles = [
+      { name: 'Customer', icon: '👤', desc: 'Raise and track complaints' },
+      { name: 'AI Branch Officer', icon: '🤖', desc: 'Review AI outputs' },
+      { name: 'Branch Officer', icon: '🧑‍💼', desc: 'Handle customer cases' },
+      { name: 'Branch Manager', icon: '📈', desc: 'Approve escalations' },
+      { name: 'Operations Team', icon: '⚙️', desc: 'Monitor SLAs and audit' },
+      { name: 'Administrator', icon: '🔐', desc: 'Manage users and policies' },
+    ];
+
+    const navByRole = {
+      'Customer': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['queue', 'My Complaints'],
+        ['knowledge', 'Knowledge Base'],
+      ],
+      'AI Branch Officer': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['queue', 'Complaint Queue'],
+        ['customer360', 'Customer 360'],
+        ['knowledge', 'Knowledge Base'],
+      ],
+      'Branch Officer': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['queue', 'Complaint Queue'],
+        ['customer360', 'Customer 360'],
+      ],
+      'Branch Manager': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['escalations', 'Escalations'],
+        ['reports', 'Reports'],
+      ],
+      'Operations Team': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['reports', 'Reports'],
+        ['logs', 'Audit Logs'],
+      ],
+      'Administrator': [
+        ['dashboard', 'Dashboard'],
+        ['ai', 'AI Agent Demo'],
+        ['admin', 'Admin Console'],
+        ['knowledge', 'Knowledge Base'],
+        ['logs', 'Audit Logs'],
+      ],
+    };
+
+    const roleStats = {
+      'Customer': [
+        ['Open Complaints', '3', 'Complaints awaiting action'],
+        ['Resolved', '12', 'Cases closed this month'],
+        ['AI Confidence', '92%', 'Recommended actions accepted'],
+        ['Satisfaction', '4.7/5', 'Based on recent feedback'],
+      ],
+      'AI Branch Officer': [
+        ['Queue Items', '27', 'Waiting for review'],
+        ['Auto-resolved', '61%', 'Handled by AI workflow'],
+        ['Escalations', '8', 'Needs human intervention'],
+        ['SLA Breaches', '1', 'Under monitoring'],
+      ],
+      'Branch Officer': [
+        ['Customer Cases', '18', 'Assigned to your branch'],
+        ['In Progress', '9', 'Under investigation'],
+        ['Pending Docs', '4', 'Awaiting customer upload'],
+        ['Closure Rate', '84%', 'This month'],
+      ],
+      'Branch Manager': [
+        ['Escalations', '12', 'Pending approval'],
+        ['SLA Breaches', '3', 'Need immediate action'],
+        ['Resolved Rate', '89%', 'This month'],
+        ['Repeat Complaints', '6', 'Potential root causes'],
+      ],
+      'Operations Team': [
+        ['Open Tickets', '42', 'Across all branches'],
+        ['Fraud Cases', '5', 'Under review'],
+        ['Logs Reviewed', '128', 'Today'],
+        ['Process Health', '99.2%', 'System uptime'],
+      ],
+      'Administrator': [
+        ['Active Users', '146', 'Role-based accounts'],
+        ['Policies', '38', 'Published in KB'],
+        ['API Calls', '12k', 'Today'],
+        ['System Health', '99.9%', 'Monitoring status'],
+      ],
+    };
+
+    const sampleTickets = [
+      { id: 'SBV-10241', customer: 'Asha Rao', issue: 'UPI debit not received by beneficiary', product: 'Payments', status: 'In Progress', sla: '4h', owner: 'AI Branch Officer' },
+      { id: 'SBV-10244', customer: 'Ravi Kumar', issue: 'Debit card blocked after ATM transaction', product: 'Cards', status: 'Pending Approval', sla: '24h', owner: 'Branch Officer' },
+      { id: 'SBV-10249', customer: 'Meera Nair', issue: 'Loan EMI debited twice', product: 'Loans', status: 'Escalated', sla: '4h', owner: 'Branch Manager' },
+      { id: 'SBV-10255', customer: 'Suresh Patel', issue: 'Unauthorized card transaction', product: 'Fraud', status: 'Open', sla: '2h', owner: 'Operations Team' },
+    ];
+
+    const customerProfile = {
+      name: 'Asha Rao',
+      customerId: 'CUST-20491',
+      risk: 'Low',
+      account: 'Savings + UPI + Card',
+      city: 'Mumbai',
+      lastLogin: 'Today, 10:42 AM',
+      lastCase: 'UPI debit not received',
+      preference: 'WhatsApp / Email',
+    };
+
+    const escalationCases = [
+      { id: 'ESC-9001', subject: 'Possible fraud on debit card', priority: 'High', action: 'Freeze card, alert fraud team, seek manager approval' },
+      { id: 'ESC-9002', subject: 'SLA breach on loan EMI reversal', priority: 'Medium', action: 'Approve customer compensation or accelerate processing' },
+      { id: 'ESC-9003', subject: 'Repeat complaint on branch visit issue', priority: 'Medium', action: 'Review branch process and callback customer' },
+    ];
+
+    const policyCards = [
+      { title: 'Transaction Dispute Policy', text: 'If debit is posted but beneficiary is unpaid, create reversal request, validate ledger, and update customer within SLA.' },
+      { title: 'Fraud Handling Policy', text: 'For unauthorized activity, block the instrument immediately, register case, and escalate to fraud operations.' },
+      { title: 'SLA Policy', text: 'High-risk complaints must be acknowledged within 15 minutes and resolved or escalated within the defined window.' },
+      { title: 'Complaint Closure Policy', text: 'Close only after resolution communication is sent, customer confirmation is recorded, and audit logs are complete.' },
+    ];
+
+    const auditLogs = [
+      '10:15 AM — Complaint SBV-10241 created from web portal',
+      '10:18 AM — Intent Agent classified complaint as transaction dispute',
+      '10:20 AM — Policy Intelligence Agent matched reversal policy',
+      '10:25 AM — Escalation Agent routed case to Branch Officer',
+      '10:33 AM — Communication Agent sent status update to customer',
+      '10:42 AM — Audit entry stored in operational log database',
+    ];
+
+    let currentUser = null;
+    let activeSection = 'dashboard';
+    let aiRunning = false;
+
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[m]));
+    }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function initLoginPage() {
+      const roleCards = document.getElementById('roleCards');
+      roleCards.innerHTML = roles.map(role => `
+        <div class="role-card">
+          <div class="role-top">
+            <div class="role-icon">${role.icon}</div>
+            <div>
+              <h4>${role.name}</h4>
+              <span>${role.desc}</span>
+            </div>
+          </div>
+          <button class="btn btn-secondary" style="width:100%" onclick="quickLogin('${role.name}')">Demo Login</button>
+        </div>
+      `).join('');
+
+      const roleSelect = document.getElementById('roleSelect');
+      roleSelect.innerHTML = roles.map(r => `<option value="${r.name}">${r.name}</option>`).join('');
+
+      document.getElementById('loginBtn').addEventListener('click', handleLogin);
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+
+      const saved = localStorage.getItem('svbSession');
+      if (saved) {
+        try {
+          currentUser = JSON.parse(saved);
+          showApp();
+        } catch {
+          localStorage.removeItem('svbSession');
+        }
+      }
+    }
+
+    function quickLogin(role) {
+      currentUser = {
+        username: `${role.replace(/\s+/g, '_').toLowerCase()}_demo`,
+        role
+      };
+      localStorage.setItem('svbSession', JSON.stringify(currentUser));
+      showApp();
+    }
+
+    function handleLogin() {
+      const username = document.getElementById('username').value.trim() || 'demo.user';
+      const role = document.getElementById('roleSelect').value;
+      const password = document.getElementById('password').value;
+      const err = document.getElementById('loginError');
+
+      if (password !== DEMO_PASSWORD) {
+        err.style.display = 'block';
+        return;
+      }
+
+      err.style.display = 'none';
+      currentUser = { username, role };
+      localStorage.setItem('svbSession', JSON.stringify(currentUser));
+      showApp();
+    }
+
+    function showApp() {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('appPage').classList.remove('hidden');
+      document.getElementById('userBadge').textContent = `${currentUser.role} • ${currentUser.username}`;
+      renderSidebar();
+      setSection('dashboard');
+    }
+
+    function logout() {
+      localStorage.removeItem('svbSession');
+      currentUser = null;
+      document.getElementById('appPage').classList.add('hidden');
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    }
+
+    function renderSidebar() {
+      const menu = document.getElementById('sidebarMenu');
+      const items = navByRole[currentUser.role] || navByRole['Customer'];
+      menu.innerHTML = items.map(([key, label]) => `
+        <button class="nav-btn ${activeSection === key ? 'active' : ''}" data-section="${key}">
+          <span>${label}</span>
+          <span>›</span>
+        </button>
+      `).join('');
+
+      menu.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => setSection(btn.dataset.section));
+      });
+    }
+
+    function setSection(section) {
+      activeSection = section;
+      renderSidebar();
+      renderContent();
+    }
+
+    function pageHeader(title, subtitle, pill = '') {
+      return `
+        <div class="section-head">
+          <div>
+            <h3>${title}</h3>
+            <p>${subtitle}</p>
+          </div>
+          ${pill ? `<span class="tag">${pill}</span>` : ''}
+        </div>
+      `;
+    }
+
+    function renderContent() {
+      const content = document.getElementById('contentArea');
+      switch (activeSection) {
+        case 'dashboard':
+          content.innerHTML = renderDashboard();
+          break;
+        case 'ai':
+          content.innerHTML = renderAIDemo();
+          bindAIDemo();
+          break;
+        case 'queue':
+          content.innerHTML = renderQueue();
+          break;
+        case 'customer360':
+          content.innerHTML = renderCustomer360();
+          break;
+        case 'escalations':
+          content.innerHTML = renderEscalations();
+          break;
+        case 'reports':
+          content.innerHTML = renderReports();
+          break;
+        case 'knowledge':
+          content.innerHTML = renderKnowledge();
+          break;
+        case 'admin':
+          content.innerHTML = renderAdmin();
+          break;
+        case 'logs':
+          content.innerHTML = renderLogs();
+          break;
+        default:
+          content.innerHTML = renderDashboard();
+      }
+    }
+
+    function renderDashboard() {
+      const stats = roleStats[currentUser.role] || roleStats['Customer'];
+
+      return `
+        ${pageHeader(
+          `${currentUser.role} Dashboard`,
+          'A role-based view of the virtual branch, complaint pipeline, and AI assistance flow.',
+          'Secure demo environment'
+        )}
+
+        <div class="kpi-grid">
+          ${stats.map(([label, value, sub]) => `
+            <div class="kpi">
+              <div class="label">${label}</div>
+              <div class="value">${value}</div>
+              <div class="sub">${sub}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Today’s Actions</h4>
+            <div class="list">
+              <div class="list-item">
+                <strong>Complaint intake and triage</strong>
+                <p>AI agents classify the issue, identify the customer context, and route the case to the correct work queue.</p>
+              </div>
+              <div class="list-item">
+                <strong>SLA tracking and escalation</strong>
+                <p>Cases are monitored for breach risk. High-priority complaints are auto-escalated with alerts and notifications.</p>
+              </div>
+              <div class="list-item">
+                <strong>Resolution and closure</strong>
+                <p>Once a fix or explanation is ready, the communication agent drafts a response and closure is recorded with audit logs.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>AI Flow Snapshot</h4>
+            <div class="list">
+              <div class="list-item">
+                <strong>Understand</strong>
+                <p>Complaint intake, intent detection, and customer 360 lookup.</p>
+              </div>
+              <div class="list-item">
+                <strong>Investigate</strong>
+                <p>Transaction history, CRM, fraud, and policy matching.</p>
+              </div>
+              <div class="list-item">
+                <strong>Resolve / Escalate</strong>
+                <p>Suggested action, human approval, escalations, and notifications.</p>
+              </div>
+              <div class="list-item">
+                <strong>Prevent</strong>
+                <p>Root cause analysis and trend reporting to reduce repeat complaints.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">
+          This is a front-end prototype. In production, connect login to JWT/SSO, role permissions to RBAC, and AI agents to real APIs, policy stores, and LLM endpoints.
+        </div>
+      `;
+    }
+
+    function renderAIDemo() {
+      return `
+        ${pageHeader(
+          'AI Agent Demo',
+          'Enter a complaint, then watch the simulated agent workflow classify, investigate, recommend, and escalate if needed.',
+          'Complaint → AI agents'
+        )}
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Complaint Intake</h4>
+            <div class="field">
+              <label>Complaint text</label>
+              <textarea id="complaintInput" placeholder="Type customer complaint here..."></textarea>
+            </div>
+
+            <div class="form-row">
+              <button class="btn btn-secondary" id="samplePaymentBtn">Load Payment Dispute</button>
+              <button class="btn btn-secondary" id="sampleFraudBtn">Load Fraud Case</button>
+              <button class="btn btn-primary" id="runAiBtn">Run AI Agents</button>
+            </div>
+
+            <div class="progress"><span id="aiProgress"></span></div>
+
+            <div class="hint">
+              Demo examples are synthetic and use keyword-based AI behavior to illustrate the workflow.
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>AI Summary</h4>
+            <div id="aiSummary" class="muted">No analysis yet. Click “Run AI Agents”.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <h4>Agent Timeline</h4>
+          <div id="agentTimeline" class="timeline"></div>
+        </div>
+      `;
+    }
+
+    function bindAIDemo() {
+      const samplePayment = 'I made a UPI transfer of ₹8,500 yesterday. The amount was debited from my account, but the beneficiary says they did not receive it. Please check and reverse it if needed.';
+      const sampleFraud = 'There is an unauthorized debit card transaction from my account. I do not recognize this purchase and want the card blocked immediately.';
+      const complaintInput = document.getElementById('complaintInput');
+      const summary = document.getElementById('aiSummary');
+      const timeline = document.getElementById('agentTimeline');
+      const progress = document.getElementById('aiProgress');
+
+      document.getElementById('samplePaymentBtn').onclick = () => {
+        complaintInput.value = samplePayment;
+        summary.textContent = 'Sample complaint loaded. Click Run AI Agents.';
+        timeline.innerHTML = '';
+        progress.style.width = '0%';
+      };
+
+      document.getElementById('sampleFraudBtn').onclick = () => {
+        complaintInput.value = sampleFraud;
+        summary.textContent = 'Sample complaint loaded. Click Run AI Agents.';
+        timeline.innerHTML = '';
+        progress.style.width = '0%';
+      };
+
+      document.getElementById('runAiBtn').onclick = async () => {
+        if (aiRunning) return;
+        const text = complaintInput.value.trim();
+        if (!text) {
+          summary.innerHTML = '<span style="color:#b91c1c">Please enter a complaint first.</span>';
+          return;
+        }
+        await runAIDemo(text, summary, timeline, progress);
+      };
+    }
+
+    function analyzeComplaint(text) {
+      const t = text.toLowerCase();
+
+      let product = 'General Banking';
+      let intent = 'Service Query';
+      let severity = 'low';
+      let confidence = 82;
+      let resolution = 'Create a service ticket and route it to the appropriate branch queue.';
+      let policy = 'General grievance handling policy applies.';
+      let nextAction = 'A branch officer should review the complaint and gather more details.';
+      let rca = 'Insufficient data to determine root cause.';
+      let customerContext = 'Customer 360 retrieved: KYC verified, active account, recent complaint history checked.';
+
+      if (/(fraud|unauthori[sz]ed|stolen|scam)/.test(t)) {
+        product = 'Fraud / Cards';
+        intent = 'Potential Fraud';
+        severity = 'high';
+        confidence = 96;
+        resolution = 'Freeze the card/instrument, raise a fraud case, and escalate to operations immediately.';
+        policy = 'Fraud handling policy requires immediate containment and escalation.';
+        nextAction = 'Block the instrument, notify the fraud desk, and request confirmation from the customer.';
+        rca = 'Possible compromise of payment instrument or suspicious merchant activity.';
+      } else if (/(upi|imps|neft|rtgs|transfer|payment|transaction|debit|credit)/.test(t)) {
+        product = 'Payments';
+        intent = 'Transaction Dispute';
+        severity = 'medium';
+        confidence = 91;
+        resolution = 'Check transaction trail, verify debit/credit status, and initiate reversal if the payment is pending or failed.';
+        policy = 'Transaction dispute policy: validate ledger entries before reversal or refund.';
+        nextAction = 'Fetch core banking transaction record and update the customer with the result.';
+        rca = 'Likely payment processing delay, network failure, or beneficiary-side credit mismatch.';
+      } else if (/(card|debit card|credit card|atm|pin|blocked)/.test(t)) {
+        product = 'Cards';
+        intent = 'Card Access Issue';
+        severity = /blocked|lost|stolen/.test(t) ? 'medium' : 'low';
+        confidence = 89;
+        resolution = 'Validate card status, unblock or reissue the card, and provide customer guidance.';
+        policy = 'Card service policy allows reissue or unblocking after identity verification.';
+        nextAction = 'Confirm card status in the card management API and process the appropriate action.';
+        rca = 'Card may have been blocked due to security rules, ATM decline, or usage limits.';
+      } else if (/(loan|emi|repayment|foreclosure)/.test(t)) {
+        product = 'Loans';
+        intent = 'Loan Service Issue';
+        severity = 'medium';
+        confidence = 88;
+        resolution = 'Verify EMI schedule, repayment status, and any duplicate debit or overdue condition.';
+        policy = 'Loan servicing policy supports statement correction and repayment investigation.';
+        nextAction = 'Check loan account, repayment ledger, and send an updated schedule to customer.';
+        rca = 'Could be a payment posting delay or duplicate debit scenario.';
+      } else if (/(kyc|document|statement|address|proof)/.test(t)) {
+        product = 'Accounts';
+        intent = 'Documentation / KYC Issue';
+        severity = 'low';
+        confidence = 85;
+        resolution = 'Request missing documents and enable secure upload for verification.';
+        policy = 'KYC policy requires complete documentation before account-level changes.';
+        nextAction = 'Send document request and track upload completion.';
+        rca = 'Incomplete documentation or pending compliance validation.';
+      }
+
+      const escalate = severity === 'high' || intent === 'Transaction Dispute' || intent === 'Loan Service Issue';
+      const sla = severity === 'high' ? '4 hours' : severity === 'medium' ? '24 hours' : '3 business days';
+      const communication = escalate
+        ? 'We have registered your complaint and escalated it for immediate review. Our team will update you shortly.'
+        : 'We have registered your complaint and are processing it. You will receive updates as soon as we have progress.';
+
+      return {
+        ticketId: `SBV-${Math.floor(10000 + Math.random() * 90000)}`,
+        product,
+        intent,
+        severity,
+        confidence,
+        resolution,
+        policy,
+        nextAction,
+        rca,
+        customerContext,
+        sla,
+        escalate,
+        communication,
+      };
+    }
+
+    async function runAIDemo(text, summaryEl, timelineEl, progressEl) {
+      aiRunning = true;
+      const btn = document.getElementById('runAiBtn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+      timelineEl.innerHTML = '';
+      summaryEl.innerHTML = '<div class="muted">AI agents are analyzing the complaint...</div>';
+      progressEl.style.width = '0%';
+
+      const analysis = analyzeComplaint(text);
+
+      const steps = [
+        {
+          agent: 'Intake Agent',
+          detail: `Complaint captured and ticket created: <b>${analysis.ticketId}</b>.`
+        },
+        {
+          agent: 'Intent Agent',
+          detail: `Detected intent: <b>${analysis.intent}</b> with confidence <b>${analysis.confidence}%</b>.`
+        },
+        {
+          agent: 'Product Classification Agent',
+          detail: `Mapped to product domain: <b>${analysis.product}</b>.`
+        },
+        {
+          agent: 'Customer Context Agent',
+          detail: analysis.customerContext
+        },
+        {
+          agent: 'Investigation Agent',
+          detail: `Checking mock CRM, core banking, transaction, and fraud indicators for the complaint.`
+        },
+        {
+          agent: 'Policy Intelligence Agent',
+          detail: analysis.policy
+        },
+        {
+          agent: 'Resolution Agent',
+          detail: analysis.resolution
+        },
+        {
+          agent: 'SLA Agent',
+          detail: `Estimated SLA: <b>${analysis.sla}</b>. Priority: <b>${analysis.severity.toUpperCase()}</b>.`
+        },
+        {
+          agent: 'Escalation Agent',
+          detail: analysis.escalate
+            ? 'Escalation required. Routing to branch manager / operations for approval and follow-up.'
+            : 'No escalation required. Case can be handled at branch level.'
+        },
+        {
+          agent: 'Communication Agent',
+          detail: analysis.communication
+        },
+        {
+          agent: 'Closure Agent',
+          detail: analysis.escalate
+            ? 'Case remains open until approval and customer confirmation.'
+            : 'Case eligible for closure after communication is sent.'
+        },
+        {
+          agent: 'Root Cause Analysis Agent',
+          detail: analysis.rca
+        }
+      ];
+
+      let output = '';
+      for (let i = 0; i < steps.length; i++) {
+        const s = steps[i];
+        output += `
+          <div class="step">
+            <div class="num">${i + 1}</div>
+            <div class="meta">
+              <strong>${escapeHTML(s.agent)}</strong>
+              <span>${s.detail}</span>
+            </div>
+          </div>
+        `;
+        timelineEl.innerHTML = output;
+        progressEl.style.width = `${Math.round(((i + 1) / steps.length) * 100)}%`;
+        await sleep(280);
+      }
+
+      summaryEl.innerHTML = `
+        <div class="result-banner ${analysis.severity}">
+          <div>
+            <div class="muted" style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;">Ticket ${analysis.ticketId}</div>
+            <h4>${analysis.intent}</h4>
+            <p>${analysis.resolution}</p>
+          </div>
+          <span class="badge ${analysis.severity}">${analysis.severity.toUpperCase()}</span>
+        </div>
+
+        <div class="mini-grid">
+          <div class="mini-card">
+            <div class="t">Product</div>
+            <div class="v">${analysis.product}</div>
+          </div>
+          <div class="mini-card">
+            <div class="t">SLA</div>
+            <div class="v">${analysis.sla}</div>
+          </div>
+          <div class="mini-card">
+            <div class="t">Escalation</div>
+            <div class="v">${analysis.escalate ? 'Required' : 'Not required'}</div>
+          </div>
+          <div class="mini-card">
+            <div class="t">Confidence</div>
+            <div class="v">${analysis.confidence}%</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;padding:14px;background:#fbfdff;">
+          <h5 style="margin:0 0 8px;">Recommended Next Action</h5>
+          <div class="muted" style="line-height:1.6;">${analysis.nextAction}</div>
+        </div>
+      `;
+
+      btn.disabled = false;
+      btn.textContent = 'Run AI Agents';
+      aiRunning = false;
+    }
+
+    function renderQueue() {
+      const title = currentUser.role === 'Customer' ? 'My Complaints' : 'Complaint Queue';
+      const subtitle = currentUser.role === 'Customer'
+        ? 'View your submitted complaints and track their current progress.'
+        : 'Complaints assigned to your role, with status, SLA, and ownership.';
+      return `
+        ${pageHeader(title, subtitle, 'Queue view')}
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ticket</th>
+                <th>Customer</th>
+                <th>Issue</th>
+                <th>Product</th>
+                <th>Status</th>
+                <th>SLA</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sampleTickets.map(t => `
+                <tr>
+                  <td><b>${t.id}</b></td>
+                  <td>${t.customer}</td>
+                  <td>${t.issue}</td>
+                  <td>${t.product}</td>
+                  <td><span class="status ${statusClass(t.status)}">${t.status}</span></td>
+                  <td>${t.sla}</td>
+                  <td>${t.owner}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderCustomer360() {
+      return `
+        ${pageHeader(
+          'Customer 360 View',
+          'A single view of customer profile, account type, recent issue, and communication preference.',
+          'Unified profile'
+        )}
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Customer Profile</h4>
+            <div class="list">
+              <div class="list-item"><strong>Name</strong><p>${customerProfile.name}</p></div>
+              <div class="list-item"><strong>Customer ID</strong><p>${customerProfile.customerId}</p></div>
+              <div class="list-item"><strong>Products</strong><p>${customerProfile.account}</p></div>
+              <div class="list-item"><strong>City</strong><p>${customerProfile.city}</p></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Status Snapshot</h4>
+            <div class="list">
+              <div class="list-item"><strong>Risk Level</strong><p>${customerProfile.risk}</p></div>
+              <div class="list-item"><strong>Last Login</strong><p>${customerProfile.lastLogin}</p></div>
+              <div class="list-item"><strong>Last Case</strong><p>${customerProfile.lastCase}</p></div>
+              <div class="list-item"><strong>Preferred Channel</strong><p>${customerProfile.preference}</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <h4>Recent Interactions</h4>
+          <div class="list">
+            <div class="list-item">
+              <strong>Complaint SBV-10241</strong>
+              <p>AI triaged payment dispute, checked core banking transaction trail, and recommended reversal workflow.</p>
+            </div>
+            <div class="list-item">
+              <strong>Service Message</strong>
+              <p>Customer received acknowledgement via email and portal notification within SLA.</p>
+            </div>
+            <div class="list-item">
+              <strong>Follow-up</strong>
+              <p>Branch officer verified account details and recorded closure note.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderEscalations() {
+      return `
+        ${pageHeader(
+          'Escalation Workbench',
+          'High-priority and SLA-breached cases needing manager or operations review.',
+          'Approval required'
+        )}
+
+        <div class="grid-3">
+          ${escalationCases.map(c => `
+            <div class="card">
+              <div class="tag" style="margin-bottom:10px;">Priority: ${c.priority}</div>
+              <h4>${c.id}</h4>
+              <div class="muted" style="margin-bottom:10px; line-height:1.5;">${c.subject}</div>
+              <div class="list-item" style="margin-bottom:10px;">
+                <strong>Recommended Action</strong>
+                <p>${c.action}</p>
+              </div>
+              <button class="btn btn-primary" style="width:100%">Review Case</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderReports() {
+      return `
+        ${pageHeader(
+          'Reports & Dashboards',
+          'Operational performance indicators for resolution, escalation, SLA compliance, and repeat complaint prevention.',
+          'Analytics'
+        )}
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="label">SLA Compliance</div><div class="value">94%</div><div class="sub">All channels combined</div></div>
+          <div class="kpi"><div class="label">Average Resolution Time</div><div class="value">6.2h</div><div class="sub">For serviced cases</div></div>
+          <div class="kpi"><div class="label">Escalation Rate</div><div class="value">8%</div><div class="sub">Cases requiring manager review</div></div>
+          <div class="kpi"><div class="label">Repeat Complaints</div><div class="value">3%</div><div class="sub">Lower is better</div></div>
+        </div>
+
+        <div class="card">
+          <h4>Performance Snapshot</h4>
+          <div class="bar-row">
+            <div>Resolved within SLA</div>
+            <div class="bar"><span style="width:94%"></span></div>
+            <div><b>94%</b></div>
+          </div>
+          <div class="bar-row">
+            <div>AI auto-resolution</div>
+            <div class="bar"><span style="width:61%"></span></div>
+            <div><b>61%</b></div>
+          </div>
+          <div class="bar-row">
+            <div>Escalated cases</div>
+            <div class="bar"><span style="width:18%"></span></div>
+            <div><b>18%</b></div>
+          </div>
+          <div class="bar-row">
+            <div>Customer satisfaction</div>
+            <div class="bar"><span style="width:91%"></span></div>
+            <div><b>4.6/5</b></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderKnowledge() {
+      return `
+        ${pageHeader(
+          'Knowledge Base & Policies',
+          'Policy articles, resolution guidelines, and reference rules used by the AI agents.',
+          'RAG / policy lookup'
+        )}
+
+        <div class="search-row">
+          <input type="text" placeholder="Search policies (demo only)" disabled />
+          <button class="btn btn-secondary">Search</button>
+        </div>
+
+        <div class="grid-2">
+          ${policyCards.map(p => `
+            <div class="card">
+              <h4>${p.title}</h4>
+              <div class="muted" style="line-height:1.6;">${p.text}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderAdmin() {
+      return `
+        ${pageHeader(
+          'Administration Console',
+          'Manage users, roles, and access policy for the virtual branch (demo view).',
+          'RBAC'
+        )}
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>User Roles</h4>
+            <div class="list">
+              ${roles.map(r => `
+                <div class="list-item">
+                  <strong>${r.icon} ${r.name}</strong>
+                  <p>${r.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Security Settings</h4>
+            <div class="list">
+              <div class="list-item"><strong>Authentication</strong><p>JWT / OAuth2</p></div>
+              <div class="list-item"><strong>Authorization</strong><p>RBAC with permission groups</p></div>
+              <div class="list-item"><strong>Threat Controls</strong><p>Rate limiting, IP filtering, and audit logging</p></div>
+              <div class="list-item"><strong>AI Controls</strong><p>Model usage, prompt logs, and escalation rules</p></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLogs() {
+      return `
+        ${pageHeader(
+          'Audit Logs',
+          'End-to-end visibility for compliance, support, and operational tracing.',
+          'Immutable trail'
+        )}
+
+        <div class="card">
+          <div class="list">
+            ${auditLogs.map(log => `
+              <div class="list-item">
+                <strong>Log Event</strong>
+                <p>${log}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function statusClass(status) {
+      const s = status.toLowerCase();
+      if (s.includes('resolved')) return 'resolved';
+      if (s.includes('pending') || s.includes('progress')) return 'progress';
+      if (s.includes('escalat')) return 'escalated';
+      return 'open';
+    }
+
+    // Initialize
+    initLoginPage();
+  </script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HDFC Smart Virtual Branch — AI Driven Resolution</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+          colors: {
+            deep: '#0B1120',
+            surface: '#111827',
+            card: '#1F2937',
+            accent: '#6366F1', // Indigo/Purple
+            agent: '#10B981',  // Emerald for AI agents
+            hdfc: '#2D5A87',
+            gold: '#F59E0B'
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'flow': 'flow 8s linear infinite',
+          },
+          keyframes: {
+            flow: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0B1120; color: #E5E7EB; overflow-x: hidden; }
+    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); }
+    .glass-card { background: linear-gradient(145deg, rgba(31,41,55,0.8), rgba(17,24,39,0.9)); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+    .role-card:hover { border-color: #6366F1; transform: translateY(-4px); box-shadow: 0 0 30px rgba(99,102,241,0.15); }
+    .agent-node.active { border-color: #10B981; box-shadow: 0 0 20px rgba(16,185,129,0.4); background: rgba(16,185,129,0.15); }
+    .agent-node { transition: all 0.4s ease; border: 2px solid rgba(255,255,255,0.1); }
+    .pipeline-arrow { animation: flow-arrow 1.5s ease-in-out infinite alternate; }
+    @keyframes flow-arrow { from { opacity: 0.3; } to { opacity: 1; } }
+    .scroll-hide::-webkit-scrollbar { display: none; }
+    .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen selection:bg-accent/30">
+
+  <!-- LOGIN SCREEN -->
+  <section id="loginScreen" class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4">
+    <!-- Background decorative circles -->
+    <div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-agent/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="text-center mb-12 z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-gray-300 mb-6">
+        <span class="w-2 h-2 rounded-full bg-agent animate-pulse"></span> SYSTEM ACTIVE — AI BRANCH ONLINE
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-white via-indigo-100 to-indigo-300 bg-clip-text text-transparent">
+        HDFC Smart Virtual Branch
+      </h1>
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        AI-Driven Customer Service & Complaint Resolution
+      </p>
+      <p class="text-sm text-gray-500 mt-2 font-mono">Understand → Investigate → Resolve → Escalate → Prevent</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl w-full z-10">
+      <!-- Role Cards -->
+      <button onclick="login('Customer')" class="role-card glass-card p-6 rounded-2xl text-left group">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-user"></i></div>
+        <h3 class="font-bold text-lg mb-1">Customer</h3>
+        <p class="text-xs text-gray-400">Intake complaints & track resolution.</p>
+      </button>
+
+      <button onclick="login('AI Branch Officer')" class="role-card glass-card p-6 rounded-2xl text-left group border-l-2 border-l-agent">
+        <div class="w-12 h-12 rounded-xl bg-agent/20 text-agent flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-robot"></i></div>
+        <h3 class="font-bold text-lg mb-1">AI Branch Officer</h3>
+        <p class="text-xs text-gray-400">Agent orchestration & resolution demo.</p>
+      </button>
+
+      <button onclick="login('Branch Officer')" class="role-card glass-card p-6 rounded-2xl text-left group">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-building-columns"></i></div>
+        <h3 class="font-bold text-lg mb-1">Branch Officer</h3>
+        <p class="text-xs text-gray-400">Human escalation & reviews.</p>
+      </button>
+
+      <button onclick="login('Branch Manager')" class="role-card glass-card p-6 rounded-2xl text-left group">
+        <div class="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-user-tie"></i></div>
+        <h3 class="font-bold text-lg mb-1">Branch Manager</h3>
+        <p class="text-xs text-gray-400">Dashboards, SLAs & approvals.</p>
+      </button>
+
+      <button onclick="login('Operations Team')" class="role-card glass-card p-6 rounded-2xl text-left group">
+        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-gears"></i></div>
+        <h3 class="font-bold text-lg mb-1">Operations Team</h3>
+        <p class="text-xs text-gray-400">Root cause analysis & policies.</p>
+      </button>
+
+      <button onclick="login('Administrator')" class="role-card glass-card p-6 rounded-2xl text-left group">
+        <div class="w-12 h-12 rounded-xl bg-violet-500/20 text-violet-400 flex items-center justify-center mb-4 text-xl"><i class="fa-solid fa-server"></i></div>
+        <h3 class="font-bold text-lg mb-1">Administrator</h3>
+        <p class="text-xs text-gray-400">System, APIs & data access.</p>
+      </button>
+    </div>
+  </section>
+
+  <!-- APP DASHBOARD -->
+  <div id="appScreen" class="hidden min-h-screen flex flex-col">
+    <!-- Top Navigation -->
+    <header class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4 flex items-center justify-between backdrop-blur-xl">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded bg-gradient-to-br from-accent to-agent flex items-center justify-center text-white font-bold text-xs">H</div>
+        <div>
+          <h2 class="font-bold text-sm leading-none" id="headerTitle">Smart Virtual Branch</h2>
+          <span class="text-[10px] text-gray-500 font-mono" id="headerRole">ROLE: AI BRANCH OFFICER</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="hidden md:inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/5 text-xs font-mono text-gray-300 border border-white/5">
+          <span class="w-1.5 h-1.5 rounded-full bg-agent animate-pulse"></span> LIVE
+        </span>
+        <button onclick="logout()" class="text-xs bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-lg transition">Logout</button>
+      </div>
+    </header>
+
+    <main class="flex-1 p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
+
+      <!-- Dynamic Sections based on Role -->
+      <div id="dashboardContent">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- UNIVERSAL AI AGENT DEMO SECTION (Visible to all, especially AI Officer) -->
+      <section class="glass-card rounded-3xl p-8 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-agent/10 rounded-full blur-[80px] -translate-y-1/3 translate-x-1/4"></div>
+        
+        <div class="flex items-center justify-between mb-8 relative z-10">
+          <div>
+            <h2 class="text-2xl font-extrabold mb-1">AI Agent Orchestration Pipeline</h2>
+            <p class="text-sm text-gray-400">Live simulation of the 12-step resolution engine.</p>
+          </div>
+          <button onclick="runAgentDemo()" id="demoBtn" class="bg-gradient-to-r from-agent to-emerald-600 hover:brightness-110 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-agent/20 transition flex items-center gap-2">
+            <i class="fa-solid fa-rocket"></i> Run Complaint Simulation
+          </button>
+        </div>
+
+        <!-- The Pipeline -->
+        <div class="relative">
+          <!-- Progress Bar -->
+          <div class="absolute top-[2.5rem] left-4 right-4 h-1 bg-white/5 rounded-full overflow-hidden z-0">
+            <div id="pipelineProgress" class="h-full bg-gradient-to-r from-agent via-teal-300 to-blue-400 w-0 transition-all duration-700 ease-out rounded-full shadow-[0_0_15px_rgba(16,185,129,0.6)]"></div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 relative z-10" id="agentGrid">
+            <!-- Generated by JS -->
+          </div>
+        </div>
+
+        <!-- Live Log Console -->
+        <div class="mt-8 glass rounded-xl p-5 font-mono text-xs md:text-sm border border-white/5">
+          <div class="flex items-center gap-2 mb-3 text-gray-400 border-b border-white/5 pb-2">
+            <i class="fa-solid fa-terminal text-agent"></i> SYSTEM LOG / ORCHESTRATOR
+          </div>
+          <div id="consoleOutput" class="h-48 overflow-y-auto space-y-1 text-gray-300 scroll-hide">
+            <span class="text-gray-600">> System initialized. Waiting for intake...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Channel / Architecture Visual -->
+      <section class="grid lg:grid-cols-3 gap-6">
+        <div class="glass-card rounded-2xl p-6 lg:col-span-2">
+          <h3 class="font-bold text-lg mb-4">Integration & Data Access</h3>
+          <div class="grid grid-cols-3 md:grid-cols-4 gap-3 text-center">
+            <div class="p-3 rounded-xl bg-white/5 text-xs">
+              <i class="fa-solid fa-building-columns text-accent mb-2 text-lg"></i><br/>Core Banking APIs
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 text-xs">
+              <i class="fa-solid fa-database text-agent mb-2 text-lg"></i><br/>RAG / Vector Store
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 text-xs">
+              <i class="fa-solid fa-file-shield text-amber-400 mb-2 text-lg"></i><br/>Policy Repository
+            </div>
+            <div class="p-3 rounded-xl bg-white/5 text-xs">
+              <i class="fa-solid fa-chart-line text-blue-400 mb-2 text-lg"></i><br/>Audit & Logs DB
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6">
+          <h3 class="font-bold text-lg mb-4">Channels Active</h3>
+          <ul class="space-y-3 text-sm">
+            <li class="flex justify-between items-center"><span>Website / Portal</span> <span class="text-agent text-xs">● Online</span></li>
+            <li class="flex justify-between items-center"><span>Email</span> <span class="text-agent text-xs">● Online</span></li>
+            <li class="flex justify-between items-center"><span>Live Chat</span> <span class="text-agent text-xs">● Online</span></li>
+            <li class="flex justify-between items-center"><span>WhatsApp</span> <span class="text-amber-400 text-xs">● Future</span></li>
+            <li class="flex justify-between items-center"><span>Voice / IVR</span> <span class="text-amber-400 text-xs">● Future</span></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-white/5 p-6 text-center text-xs text-gray-500 font-mono">
+      HDFC SMART VIRTUAL BRANCH — AI DRIVEN CUSTOMER SERVICE ARCHITECTURE DEMO
+    </footer>
+  </div>
+
+  <script>
+    // State
+    let currentRole = null;
+    const agents = [
+      { id: 1, title: "Intake Agent", desc: "Receive & log complaint", icon: "fa-file-import" },
+      { id: 2, title: "Intent Agent", desc: "Understand user intent", icon: "fa-bullseye" },
+      { id: 3, title: "Product Classification", desc: "Categorize banking product", icon: "fa-layer-group" },
+      { id: 4, title: "Customer Context Agent", desc: "Pull 360° profile/history", icon: "fa-user-circle" },
+      { id: 5, title: "Investigation Agent", desc: "Query transaction/account data", icon: "fa-magnifying-glass" },
+      { id: 6, title: "Policy Intelligence Agent", desc: "Check rules via RAG", icon: "fa-book-open" },
+      { id: 7, title: "Resolution Agent", desc: "Generate recommended fix", icon: "fa-lightbulb" },
+      { id: 8, title: "SLA Agent", desc: "Monitor service timelines", icon: "fa-clock" },
+      { id: 9, title: "Escalation Agent", desc: "Run escalation logic", icon: "fa-arrow-up-right-dots" },
+      { id: 10, title: "Communication Agent", desc: "Notify via Email/SMS/Chat", icon: "fa-paper-plane" },
+      { id: 11, title: "Closure Agent", desc: "Confirm & close case", icon: "fa-check-circle" },
+      { id: 12, title: "Root Cause Analysis Agent", desc: "Prevent future recurrence", icon: "fa-chart-pie" }
+    ];
+
+    // Init Agents Grid
+    function renderAgents() {
+      const grid = document.getElementById('agentGrid');
+      grid.innerHTML = agents.map(a => `
+        <div id="agent-${a.id}" class="agent-node glass rounded-2xl p-4 text-center relative group hover:scale-[1.03]">
+          <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-br from-deep to-card flex items-center justify-center text-white font-bold text-sm mb-3 shadow-lg shadow-black/40">
+            ${a.id}
+          </div>
+          <h4 class="font-bold text-sm mb-1">${a.title}</h4>
+          <p class="text-[10px] text-gray-400 leading-tight">${a.desc}</p>
+          <i class="fa-solid ${a.icon} absolute top-3 right-3 text-white/5 text-2xl group-hover:text-white/10 transition-colors"></i>
+        </div>
+      `).join('');
+    }
+
+    // Login Logic
+    window.login = function(role) {
+      currentRole = role;
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appScreen').classList.remove('hidden');
+      document.getElementById('headerRole').innerText = `ROLE: ${role.toUpperCase()}`;
+      document.getElementById('headerTitle').innerText = `Dashboard — ${role}`;
+      
+      // Update content based on role
+      const content = document.getElementById('dashboardContent');
+      if (role === 'AI Branch Officer') {
+        content.innerHTML = `
+          <div class="mb-8">
+            <h1 class="text-4xl font-extrabold mb-2">Agent Command Center</h1>
+            <p class="text-gray-400">You are viewing the AI orchestration layer. The pipeline below demonstrates the 12-agent workflow for complaint resolution.</p>
+            <div class="mt-4 flex gap-3">
+              <span class="px-3 py-1 rounded-full bg-agent/10 text-agent text-xs font-mono border border-agent/20">ORCHESTRATOR STATUS: IDLE</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 text-gray-300 text-xs font-mono border border-white/10">ACTIVE AGENTS: 12/12</span>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Customer') {
+        content.innerHTML = `
+          <div class="mb-8">
+            <h1 class="text-4xl font-extrabold mb-2">Welcome, Customer</h1>
+            <p class="text-gray-400">Submit a complaint using any of our channels. The AI will investigate and resolve within SLA.</p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <button onclick="simulateCustomerComplaint()" class="glass-card p-6 rounded-2xl text-left hover:border-agent transition group">
+              <i class="fa-solid fa-comment-dots text-3xl text-agent mb-4 group-hover:scale-110 transition-transform inline-block"></i>
+              <h3 class="font-bold text-lg">New Complaint</h3>
+              <p class="text-xs text-gray-400 mt-1">Simulate a card dispute intake through the portal.</p>
+            </button>
+            <div class="glass-card p-6 rounded-2xl">
+              <h3 class="font-bold text-lg mb-4">Recent Cases</h3>
+              <ul class="text-sm space-y-2 text-gray-300">
+                <li class="flex justify-between"><span>Refund Status</span> <span class="text-agent">Resolved</span></li>
+                <li class="flex justify-between"><span>Interest Query</span> <span class="text-amber-400">Investigating</span></li>
+              </ul>
+            </div>
+          </div>
+        `;
+      } else {
+        content.innerHTML = `
+          <div class="mb-8">
+            <h1 class="text-4xl font-extrabold mb-2">Welcome, ${role}</h1>
+            <p class="text-gray-400">Access your operational dashboard and review AI-driven resolutions.</p>
+          </div>
+          <div class="glass p-6 rounded-2xl">
+            <h3 class="font-bold mb-2">Quick Metrics</h3>
+            <div class="grid grid-cols-3 gap-4 text-center">
+              <div><div class="text-2xl font-extrabold text-white">94%</div><div class="text-xs text-gray-500">AI Resolution Rate</div></div>
+              <div><div class="text-2xl font-extrabold text-white">2h</div><div class="text-xs text-gray-500">Avg SLA Time</div></div>
+              <div><div class="text-2xl font-extrabold text-white">12</div><div class="text-xs text-gray-500">Active Agents</div></div>
+            </div>
+          </div>
+        `;
+      }
+      renderAgents();
+      window.scrollTo(0,0);
+    };
+
+    window.logout = function() {
+      currentRole = null;
+      document.getElementById('appScreen').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('pipelineProgress').style.width = '0%';
+      document.getElementById('consoleOutput').innerHTML = '<span class="text-gray-600">> System initialized. Waiting for intake...</span>';
+      agents.forEach(a => {
+        const el = document.getElementById(`agent-${a.id}`);
+        if(el) { el.classList.remove('active'); }
+      });
+      document.getElementById('demoBtn').innerHTML = '<i class="fa-solid fa-rocket"></i> Run Complaint Simulation';
+      document.getElementById('demoBtn').disabled = false;
+    };
+
+    window.simulateCustomerComplaint = function() {
+      document.getElementById('consoleOutput').innerHTML = '<span class="text-agent font-bold">[CUSTOMER] New complaint submitted: "Unauthorized Card Transaction"</span>';
+      alert("Intake agent received complaint. You can now run the AI Pipeline Demo below.");
+    };
+
+    // AI Pipeline Demo
+    window.runAgentDemo = function() {
+      const btn = document.getElementById('demoBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Running Pipeline...';
+      
+      const consoleEl = document.getElementById('consoleOutput');
+      consoleEl.innerHTML = '';
+      document.getElementById('pipelineProgress').style.width = '0%';
+
+      let step = 0;
+      function next() {
+        if (step >= agents.length) {
+          btn.innerHTML = '<i class="fa-solid fa-check"></i> Completed';
+          btn.classList.add('bg-green-700');
+          setTimeout(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-rotate"></i> Run Again';
+            btn.classList.remove('bg-green-700');
+          }, 2000);
+          return;
+        }
+        const agent = agents[step];
+        const el = document.getElementById(`agent-${agent.id}`);
+        
+        // Activate node
+        el.classList.add('active');
+
+        // Log to console
+        const line = document.createElement('div');
+        line.className = "text-green-300 font-mono border-l-2 border-agent pl-2 mb-1 animate-pulse";
+        line.innerHTML = `> [STEP ${agent.id}] <strong class="text-white">${agent.title}</strong>: ${agent.desc}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+
+        // Progress
+        const pct = ((step + 1) / agents.length) * 100;
+        document.getElementById('pipelineProgress').style.width = `${pct}%`;
+
+        step++;
+        setTimeout(next, 700);
+      }
+
+      // Small delay before start
+      setTimeout(() => {
+        consoleEl.innerHTML = '<span class="text-gray-500">> Orchestrator initiating workflow...</span>';
+        next();
+      }, 300);
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAgents();
+      // Default view for visual demo if not logged in
+      if (!currentRole) {
+        document.getElementById('headerRole').innerText = 'ROLE: GUEST — SELECT ROLE TO ACCESS DASHBOARD';
+      }
+    });
+  </script>
+</body>
+</html>
